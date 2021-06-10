@@ -9,14 +9,17 @@ export default function Categories() {
                     name='Candidates'
                 Candidates
                 />
+                
                 <Menu.Item
                     name='Employers'
                 Employers
                 />
+
                 <Menu.Item
                     name='Job Positions'
                 Job Positions
                 />
+
             </Menu>
         </div>
     )

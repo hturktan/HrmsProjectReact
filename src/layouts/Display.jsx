@@ -10,22 +10,22 @@ export default function Display() {
         <div>
             <Grid>
                 <Grid.Row>
-                    <GridColumn size={14}>
+                    <GridColumn size={12}>
                         <CandidateList />
                     </GridColumn>
                 </Grid.Row>
                 <Grid.Row>
-                    <GridColumn size={14}>
+                    <GridColumn size={12}>
                         <EmployerList />
                     </GridColumn>
                 </Grid.Row>
                 <Grid.Row>
-                    <GridColumn size={14}>
+                    <GridColumn size={12}>
                         <JobPositionList />
                     </GridColumn>
                 </Grid.Row>
                 <Grid.Row>
-                    <GridColumn size={14}>
+                    <GridColumn size={12}>
                         <JobAdvertList />
                     </GridColumn>
                 </Grid.Row>

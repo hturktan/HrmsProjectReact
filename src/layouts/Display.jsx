@@ -12,6 +12,7 @@ export default function Display() {
                 <Grid.Row>
                     <GridColumn size={12}>
                         <CandidateList />
+                        
                     </GridColumn>
                 </Grid.Row>
                 <Grid.Row>

@@ -1,6 +1,5 @@
 import React from 'react'
 import Categories from './Categories'
-import Navi from './Navi'
 import { Grid, Container } from 'semantic-ui-react'
 import Display from './Display'
 

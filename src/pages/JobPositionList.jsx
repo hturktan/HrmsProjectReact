@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { Header, Table } from "semantic-ui-react";
 import JobPositionService from "C:/JavaCamp/HRMSreact/hrms-project/src/services/jobPositionService";
 
@@ -27,7 +28,7 @@ export default function JobPosition() {
         <Table.Body>
           {jobPositions.map((jobPositions) => (
             <Table.Row key={jobPositions.id}>
-              <Table.Cell>{jobPositions.title}</Table.Cell>
+              <Table.Cell><Link to={`/jobpositions/${jobPositions.id}`}>{jobPositions.title}</Link></Table.Cell>
             </Table.Row>
           ))}
 

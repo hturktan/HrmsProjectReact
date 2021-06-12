@@ -20,12 +20,12 @@ export default function Dashboard() {
             <Categories />
           </Grid.Column>
           <Grid.Column width={12}>
-            <Route exact exact path= "/candidates" component = {CandidateList}/>
+            <Route exact path= "/candidates" component = {CandidateList}/>
             <Route path= "/candidates/:id" component = {CandidateDetail}/>
             <Route exact path= "/employers" component = {EmployerList}/>
             <Route path= "/employers/:id" component = {EmployerDetail}/>
             <Route exact path= "/jobpositions" component = {JobPositionList}/>
-            <Route path= "/jobpositions/:name" component = {JobPositionDetail}/>
+            <Route path= "/jobpositions/:id" component = {JobPositionDetail}/>
             <Route path= "/jobadverts" component ={JobAdvertList} />
             <Route exact path= "/jobadverts/:id" component = {JobAdvertDetail}/>
           </Grid.Column>

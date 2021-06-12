@@ -1,26 +1,23 @@
-import React from 'react'
-import { Menu } from 'semantic-ui-react'
+import React from "react";
+import { Menu } from "semantic-ui-react";
+import { NavLink } from "react-router-dom";
 
 export default function Categories() {
-    return (
-        <div>
-            <Menu pointing vertical>
-                <Menu.Item
-                    name='Candidates'
-                Candidates
-                />
-                
-                <Menu.Item
-                    name='Employers'
-                Employers
-                />
+  return (
+    <div>
+      <Menu pointing vertical>
+        <Menu.Item as={NavLink} to={"/candidates"}>
+          Candidates
+        </Menu.Item>
 
-                <Menu.Item
-                    name='Job Positions'
-                Job Positions
-                />
+        <Menu.Item as={NavLink} to={"/employers"}>
+          Employers
+        </Menu.Item>
 
-            </Menu>
-        </div>
-    )
+        <Menu.Item as={NavLink} to={"/jobpositions"}>
+          Job Positions
+        </Menu.Item>
+      </Menu>
+    </div>
+  );
 }

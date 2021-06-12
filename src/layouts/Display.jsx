@@ -1,5 +1,6 @@
 import React from "react";
 import { Grid, GridColumn } from "semantic-ui-react";
+import { NavLink } from 'react-router-dom';
 import CandidateList from "../pages/CandidateList";
 import EmployerList from "../pages/EmployerList";
 import JobAdvertList from "../pages/JobAdvertList";
@@ -10,7 +11,7 @@ export default function Display() {
     <div>
       <Grid>
         <Grid.Row>
-          <GridColumn size={12}>
+          <GridColumn size={12} >
             <CandidateList />
           </GridColumn>
         </Grid.Row>

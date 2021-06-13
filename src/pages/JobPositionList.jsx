@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button, Header, Table } from "semantic-ui-react";
-import JobPositionService from "C:/JavaCamp/HRMSreact/hrms-project/src/services/jobPositionService";
+import JobPositionService from "../services/jobPositionService";
 
 export default function JobPosition() {
   const [jobPositions, setJobPositions] = useState([]);

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Button, Header, Table } from "semantic-ui-react";
-import JobAdvertService from "C:/JavaCamp/HRMSreact/hrms-project/src/services/jobAdvertService";
+import JobAdvertService from "../services/jobAdvertService";
 
 export default function JobAdvert() {
   const [jobAdverts, setJobAdverts] = useState([]);

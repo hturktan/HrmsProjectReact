@@ -1,6 +1,5 @@
 import React from "react";
 import { Grid, GridColumn } from "semantic-ui-react";
-import { NavLink } from 'react-router-dom';
 import CandidateList from "../pages/CandidateList";
 import EmployerList from "../pages/EmployerList";
 import JobAdvertList from "../pages/JobAdvertList";

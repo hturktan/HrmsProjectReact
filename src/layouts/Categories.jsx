@@ -17,10 +17,7 @@ export default function Categories() {
         <Menu.Item as={NavLink} to={"/jobpositions"}>
           Job Positions
         </Menu.Item>
-        
-        <Menu.Item as={NavLink} to={"/jobadverts"}>
-          Job Adverts
-        </Menu.Item>
+
       </Menu>
     </div>
   );

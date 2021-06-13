@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Button, Card } from "semantic-ui-react";
+import { Header, Table } from "semantic-ui-react";
 import JobPositionService from "../services/jobPositionService";
 
 export default function JobPositionDetail() {
@@ -17,27 +17,25 @@ export default function JobPositionDetail() {
 
   return (
     <div>
-      <Card.Group>
-        <Card fluid>
-          <Card.Content>
-            <Card.Header>{id}</Card.Header>
-            <Card.Meta>{jobPosition.title}</Card.Meta>
-            <Card.Description>
-              Steve wants to add you to the group <strong>best friends</strong>
-            </Card.Description>
-          </Card.Content>
-          <Card.Content extra>
-            <div className="ui two buttons">
-              <Button basic color="green">
-                Approve
-              </Button>
-              <Button basic color="red">
-                Decline
-              </Button>
-            </div>
-          </Card.Content>
-        </Card>
-      </Card.Group>
+      <Table celled>
+        <Table.Header>
+          <Table.Row>
+            <Table.HeaderCell>Job Position</Table.HeaderCell>
+            <Table.HeaderCell>Title</Table.HeaderCell>
+          </Table.Row>
+        </Table.Header>
+
+        <Table.Body>
+          <Table.Row>
+            <Table.Cell>
+              <Header as="h4">
+                <Header.Content>Job Position Title</Header.Content>
+              </Header>
+            </Table.Cell>
+            <Table.Cell>{jobPosition.title}</Table.Cell>
+          </Table.Row>
+        </Table.Body>
+      </Table>
     </div>
   );
 }

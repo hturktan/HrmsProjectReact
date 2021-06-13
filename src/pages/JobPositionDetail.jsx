@@ -1,22 +1,27 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Button, Card, Image } from "semantic-ui-react";
+import JobPositionService from "../services/jobPositionService";
 
 export default function JobPositionDetail() {
   let { id } = useParams();
+
+  const [jobPosition, setJobPosition] = useState({});
+
+  useEffect(() => {
+    let jobPositionService = new JobPositionService();
+    jobPositionService
+      .findById(id)
+      .then((result) => setJobPosition(result.data.data));
+  }, []);
 
   return (
     <div>
       <Card.Group>
         <Card fluid>
           <Card.Content>
-            <Image
-              floated="right"
-              size="mini"
-              src="/images/avatar/large/steve.jpg"
-            />
-            <Card.Header>Steve Sanders</Card.Header>
-            <Card.Meta>Friends of Elliot</Card.Meta>
+            <Card.Header>{id}</Card.Header>
+            <Card.Meta>{jobPosition.title}</Card.Meta>
             <Card.Description>
               Steve wants to add you to the group <strong>best friends</strong>
             </Card.Description>

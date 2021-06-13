@@ -21,6 +21,7 @@ export default function JobPosition() {
       <Table celled>
         <Table.Header>
           <Table.Row>
+            <Table.HeaderCell>No </Table.HeaderCell>
             <Table.HeaderCell>Title </Table.HeaderCell>
           </Table.Row>
         </Table.Header>
@@ -28,10 +29,14 @@ export default function JobPosition() {
         <Table.Body>
           {jobPositions.map((jobPositions) => (
             <Table.Row key={jobPositions.id}>
-              <Table.Cell><Link to={`/jobpositions/${jobPositions.id}`}>{jobPositions.title}</Link></Table.Cell>
+              <Table.Cell>{jobPositions.id}</Table.Cell>
+              <Table.Cell>
+                <Link to={`/jobpositions/${jobPositions.id}`}>
+                  {jobPositions.title}
+                </Link>
+              </Table.Cell>
             </Table.Row>
           ))}
-
         </Table.Body>
       </Table>
     </div>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Button, Card, Image } from "semantic-ui-react";
+import { Button, Card } from "semantic-ui-react";
 import JobPositionService from "../services/jobPositionService";
 
 export default function JobPositionDetail() {
@@ -13,7 +13,7 @@ export default function JobPositionDetail() {
     jobPositionService
       .findById(id)
       .then((result) => setJobPosition(result.data.data));
-  }, []);
+  }, [id]);
 
   return (
     <div>

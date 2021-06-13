@@ -23,8 +23,7 @@ export default function Navi() {
           <Menu.Item as={NavLink} to={"/"}>
             Home
           </Menu.Item>
-          <Menu.Item as={NavLink} to={"/jobadverts"}>Job Adverts
-            </Menu.Item> 
+
 
           <Menu.Menu position="right">
             {isAuthenticated ? (

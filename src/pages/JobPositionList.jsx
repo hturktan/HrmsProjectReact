@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Header, Table } from "semantic-ui-react";
+import { Button, Header, Table } from "semantic-ui-react";
 import JobPositionService from "C:/JavaCamp/HRMSreact/hrms-project/src/services/jobPositionService";
 
 export default function JobPosition() {
@@ -23,6 +23,7 @@ export default function JobPosition() {
           <Table.Row>
             <Table.HeaderCell>No </Table.HeaderCell>
             <Table.HeaderCell>Title </Table.HeaderCell>
+            <Table.HeaderCell>Detail </Table.HeaderCell>
           </Table.Row>
         </Table.Header>
 
@@ -30,10 +31,11 @@ export default function JobPosition() {
           {jobPositions.map((jobPositions) => (
             <Table.Row key={jobPositions.id}>
               <Table.Cell>{jobPositions.id}</Table.Cell>
+              <Table.Cell>{jobPositions.title}</Table.Cell>
               <Table.Cell>
-                <Link to={`/jobpositions/${jobPositions.id}`}>
-                  {jobPositions.title}
-                </Link>
+                <Button>
+                  <Link to={`/jobpositions/${jobPositions.id}`}>View</Link>
+                </Button>
               </Table.Cell>
             </Table.Row>
           ))}

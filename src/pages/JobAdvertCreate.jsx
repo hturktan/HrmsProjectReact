@@ -199,7 +199,7 @@ export default function JobAdvertCreate() {
                 <Input
                   style={{ width: "100%" }}
                   type="number"
-                  placeholder="Maaş aralığı MAKSİMUM"
+                  placeholder="Maximum Salary"
                   value={formik.values.salaryMax}
                   name="salaryMax"
                   onChange={formik.handleChange}

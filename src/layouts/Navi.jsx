@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Container, Menu } from "semantic-ui-react";
 import SignedIn from "./SignedIn";
 import SignedOut from "./SignedOut";
-import { NavLink, useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 export default function Navi() {
   const [isAuthenticated, setIsAuthenticated] = useState(true);
@@ -20,12 +20,16 @@ export default function Navi() {
     <div>
       <Menu inverted fix="top">
         <Container>
-          <Menu.Item as={NavLink} to={"/"}>
+          <Menu.Item as={Link} to={"/"}>
             Home
           </Menu.Item>
                   
-        <Menu.Item as={NavLink} to={"/jobadverts"}>
+        <Menu.Item as={Link} to={"/jobadverts"}>
           Job Adverts
+        </Menu.Item>
+
+        <Menu.Item as={Link} to={"/jobadvertcreate"}>
+          Job Advert Create
         </Menu.Item>
 
 

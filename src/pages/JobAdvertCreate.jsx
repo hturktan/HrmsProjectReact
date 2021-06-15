@@ -4,360 +4,287 @@ import JobPositionService from "../services/jobPositionService";
 import WorkingHourService from "../services/workingHourService";
 import WorkingTypeService from "../services/workingTypeService";
 import JobAdvertService from "../services/jobAdvertService";
-import { Formik } from 'formik';
+import { Button, Dropdown, Input, TextArea, Card, Form, Grid } from "semantic-ui-react";
+import { useFormik } from 'formik';
 import * as Yup from "yup";
 import { useHistory } from "react-router-dom";
-import RoundedBox from "../layouts/RoundedBox";
-import ShadowBox from "../layouts/ShadowBox";
 
 export default function JobAdvertCreate() {
-    const [cities, setCities] = useState([])
-    const [jobPositions, setJobPositions] = useState([])
-    const [workHours, setWorkHours] = useState([])
-    const [workTypes, setWorkTypes] = useState([])
+  let jobAdvertService = new JobAdvertService();
+  const JobAdvertCreateSchema = Yup.object().shape({
+    deadLine: Yup.date().nullable().required("This area has to be filled"),
+    description: Yup.string().required("This area has to be filled"),
+    jobPositionId: Yup.string().required("This area has to be filled"),
+    workingHourId: Yup.string().required("This area has to be filled"),
+    workingTypeId: Yup.string().required("This area has to be filled"),
+    openPositions: Yup.string().required("This area has to be filled").min(1,"Position number has to be minimum 1"),
+    cityId: Yup.string().required("This area has to be filled"),
+    salaryMin: Yup.number().min(0,"This has to be minimum Zero").required("This area has to be filled"),
+    salaryMax: Yup.number().min(0,"This has to be minimum Zero").required("This area has to be filled")
+  });
 
-    useEffect(() => {
-        let cityService = new CityService();
-        let jobPositionService = new JobPositionService();
-        let workingHourService = new WorkingHourService();
-        let workingTypeService = new WorkingTypeService();
+  const history = useHistory();
 
-        cityService.getCities().then((result) => setCities(result.data.data));
-        jobPositionService.getJobPositions().then((result) => setJobPositions(result.data.data));
-        workingHourService.getWorkingHours().then((result) => setWorkHours(result.data.data));
-        WorkingTypeService.getWorkingTypes().then((result) => setWorkTypes(result.data.data));
-    }, []);
+  const formik = useFormik({
+    initialValues: {
+      description: "",
+      jobPositionId: "",
+      workingHourId: "",
+      workingTypeId: "",
+      numberOfOpenPositions: "",
+      cityId: "",
+      salaryMin: "",
+      salaryMax: "",
+      deadLine: "",
+    },
+    validationSchema: JobAdvertCreateSchema,
+    onSubmit: (values) => {
+      values.employerId = 39;
+      jobAdvertService.add(values).then((result) => console.log(result.data.data));
+      alert("New Job Advert will be added after the confirmation by staff");
+      history.push("/jobadverts");
+    },
+  });
 
-    const history = useHistory();
+  const [workingHours, setWorkingHours] = useState([]);
+  const [workingTypes, setWorkingTypes] = useState([]);
+  const [cities, setCities] = useState([]);
+  const [jobPositions, setJobPositions] = useState([]);
 
-    const jobAdvertService = new JobAdvertService();
+  useEffect(() => {
+    let workingHourService = new WorkingHourService();
+    let workingTypeService = new WorkingTypeService();
+    let cityService = new CityService();
+    let jobPositionService = new JobPositionService();
+
+    workingHourService.getWorkingHours().then((result) => setWorkingHours(result.data.data));
+    workingTypeService.getWorkingTypes().then((result) => setWorkingTypes(result.data.data));
+    cityService.getCities().then((result) => setCities(result.data.data));
+    jobPositionService.getJobPositions().then((result) => setJobPositions(result.data.data));
+  }, []);
+
+  const workingHourOption = workingHours.map((workingHours, index) => ({
+    key: index,
+    text: workingHours.name,
+    value: workingHours.id,
+  }));
+  const workingTypeOption = workingTypes.map((workingTypes, index) => ({
+    key: index,
+    text: workingTypes.name,
+    value: workingTypes.id,
+  }));
+  const cityOption = cities.map((city, index) => ({
+    key: index,
+    text: city.name,
+    value: city.id,
+  }));
+  const jobPositionOption = jobPositions.map((jobPosition, index) => ({
+    key: index,
+    text: jobPosition.name,
+    value: jobPosition.id,
+  }));
+
+  const handleChangeSemantic = (value, fieldName) => {
+    formik.setFieldValue(fieldName, value);
+  }
 
     return (
-        <div style={{ paddingTop: 100 }}>
-        <div className="row  margintop">
-          <div className="col">
-            <div style={{ padding: 20 }}>
-              <Formik
-                initialValues={{
-                  appealExpirationDate: "",
-                  cityId: "",
-                  description: "",
-                  employerId: "",
-                  jobpositionId: "",
-                  maxSalary: "",
-                  minSalary: "",
-                  openposition: "",
-                  workHourId: "",
-                  workTypeId: "",
-                }}
-                validationSchema={Yup.object({
-                  description: Yup.string().required(
-                    "Description cannot be empty"
-                  ),
-                  minSalary: Yup.number()
-                    .typeError("Text is not acceptable !")
-                    .required("Cannot be null"),
-                  maxSalary: Yup.number()
-                    .typeError("Text is not acceptable !")
-                    .required("Cannot be null"),
-                  cityId: Yup.number().required("Has to be filled up!"),
-                  jobtitleId: Yup.number().required("Has to be filled up!"),
-                  workHourId: Yup.number().required("Has to be filled up!"),
-                  workTypeId: Yup.number().required("Has to be filled up!"),
-                  quota: Yup.number().typeError("Text is not acceptable !").min(1, "Number should be at least 1").required("Has to be filled up!"),
-                })}
-                onSubmit={(
-                  values,
-                  { setSubmitting, setErrors, setStatus, resetForm }
-                ) => {
-  
-                  //Transformed Values
-                  values.jobtitleId = parseInt(values.jobtitleId);
-                  values.workHourId = parseInt(values.workHourId);
-                  values.workTypeId = parseInt(values.workTypeId);
-                  values.cityId = parseInt(values.cityId);
-                  values.openposition = parseInt(values.openposition);
-                  values.minSalary = parseInt(values.minSalary);
-                  values.maxSalary = parseInt(values.maxSalary);
-                  values.employerId = 3; // auth yapmadığımız için kendim default id setledim
-                  //Transformed Values End
-  
-  
-                  jobAdvertisementService.add(values).then((data)=>{
-                      console.log(data)
-                      history.push("/jobadverts")
-                  })
-                  
-                }}
-              >
-                {({
-                  values,
-                  touched,
-                  errors,
-                  dirty,
-                  isSubmitting,
-                  handleSubmit,
-                  handleReset,
-                  handleBlur,
-                  handleChange,
-                }) => (
-                  <form onSubmit={handleSubmit}>
-                    <div className="jobads-right">
-                      <div className="d-flex justify-content-between">
-                        <button
-                          className="btn-softpink"
-                          style={{ marginRight: 10 }}
-                        >
-                          Cancel
-                        </button>
-                        <button
-                          type="submit"
-                          disabled={!dirty || isSubmitting}
-                          className="btn-lightblue"
-                          style={{ marginRight: 10 }}
-                        >
-                          Create
-                        </button>
-                      </div>
-                    </div>
-                    <ShadowBox margined={20}>
-                      <div className="d-flex justify-content-between">
-                        <div className="f-1 d-flex flex-column">
-                          <strong style={{ marginBottom: 10 }}>Şehir</strong>
-                          <div className="custom-select jobads-right ">
-                            <select
-                              className="rounded"
-                              id="cityId"
-                              name="cityId"
-                              value={values.cityId}
-                              onChange={handleChange}
-                              onBlur={handleBlur}
-                            >
-                              <option value="" label="Choose City" />
-                              {cities.map((data, index) => (
-                                <option key={index} value={data.id}>
-                                  {data.cityName}
-                                </option>
-                              ))}
-                            </select>
-                            <span className="custom-arrow" />
-                          </div>
-                          {errors.cityId && touched.cityId ? (
-                            <div className="input-feedback">{errors.cityId}</div>
-                          ) : (
-                            ""
-                          )}
-                        </div>
-                        <div className="f-1  d-flex flex-column">
-                          <strong style={{ marginBottom: 10 }}>Position</strong>
-                          <div className="custom-select jobads-right ">
-                            <select
-                              className="rounded"
-                              name="jobtitleId"
-                              value={values.jobtitleId}
-                              onChange={handleChange}
-                              onBlur={handleBlur}
-                            >
-                              <option value="" label="Choose Position" />
-                              {titles.map((data, index) => (
-                                <option
-                                  key={index}
-                                  value={data.id}
-                                  label={data.title}
-                                >
-                                  {data.title}
-                                </option>
-                              ))}
-                            </select>
-                            <span className="custom-arrow" />
-                          </div>
-                          {errors.jobtitleId && touched.jobtitleId ? (
-                            <div className="input-feedback">
-                              {errors.jobtitleId}
-                            </div>
-                          ) : (
-                            ""
-                          )}
-                        </div>
-                      </div>
-  
-                      <div className="d-flex justify-content-between">
-                        <div className="f-1 d-flex flex-column">
-                          <strong style={{ marginBottom: 10 }}>
-                            Minimum Salary
-                          </strong>
-                          <div className="jobads-right ">
-                            <input
-                              type="text"
-                              className="rounded"
-                              name="minSalary"
-                              onChange={handleChange}
-                              onBlur={handleBlur}
-                              values={values.minSalary}
-                            />
-                          </div>
-                          {errors.minSalary && touched.minSalary ? (
-                            <div className="input-feedback">
-                              {errors.minSalary}
-                            </div>
-                          ) : (
-                            ""
-                          )}
-                        </div>
-                        <div className="f-1  d-flex flex-column">
-                          <strong style={{ marginBottom: 10 }}>
-                            Maximum Salary
-                          </strong>
-                          <div className=" jobads-right ">
-                            <input
-                              type="text"
-                              className="rounded"
-                              name="maxSalary"
-                              onChange={handleChange}
-                              onBlur={handleBlur}
-                              values={values.maxSalary}
-                            />
-                          </div>
-                          {errors.maxSalary && touched.maxSalary ? (
-                            <div className="input-feedback">
-                              {errors.maxSalary}
-                            </div>
-                          ) : (
-                            ""
-                          )}
-                        </div>
-                      </div>
-  
-                      <div className="d-flex justify-content-between">
-                        <div className="f-1 d-flex flex-column">
-                          <strong style={{ marginBottom: 10 }}>Work Type/strong>
-                          <div className="custom-select jobads-right ">
-                            <select
-                              className="rounded"
-                              name="workHourId"
-                              value={values.workHourId}
-                              onChange={handleChange}
-                              onBlur={handleBlur}
-                            >
-                              {hours.map((data, index) => (
-                                <option
-                                  key={index}
-                                  value={data.id}
-                                  label={data.workHours}
-                                >
-                                  {data.workHours}
-                                </option>
-                              ))}
-                            </select>
-                            <span className="custom-arrow" />
-                          </div>
-                        </div>
-                        <div className="f-1  d-flex flex-column">
-                          <strong style={{ marginBottom: 10 }}>
-                            Working Hour
-                          </strong>
-                          <div className="custom-select jobads-right ">
-                            <select
-                              className="rounded"
-                              name="workTypeId"
-                              value={values.workTypeId}
-                              onChange={handleChange}
-                              onBlur={handleBlur}
-                            >
-                              {types.map((data, index) => (
-                                <option
-                                  key={index}
-                                  value={data.id}
-                                  label={data.workType}
-                                >
-                                  {data.workType}
-                                </option>
-                              ))}
-                            </select>
-                            <span className="custom-arrow" />
-                          </div>
-                        </div>
-                      </div>
-  
-                      <div className="d-flex justify-content-between">
-                        <div className="f-1 d-flex flex-column">
-                          <strong style={{ marginBottom: 10 }}>
-                            Deadline
-                          </strong>
-                          <div className="jobads-right ">
-                            
-                          <input
-                           name="appealExpirationDate"
-                           onChange={handleChange}
-                           onBlur={handleBlur}
-                           values={values.appealExpirationDate}
-  
-                            class="form-control"
-                            type="datetime-local"
-                            id="appealExpirationDate"
-                          />
-                          </div>
-                          {errors.appealExpirationDate && touched.appealExpirationDate ? (
-                            <div className="input-feedback">
-                              {errors.appealExpirationDate}
-                            </div>
-                          ) : (
-                            ""
-                          )}
-                        </div>
-                      </div>
-  
-                      
-                      <div className="f-1 d-flex flex-column">
-                        <strong style={{ marginBottom: 10 }}>Number of Open Position</strong>
-                        <div className="jobads-right ">
-                          <input
-                            name="quota"
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            values={values.quota[0] || ""}
-                            type="text"
-                            className="rounded"
-                          />
-                        </div>
-                        {errors.quota && touched.quota ? (
-                          <div className="input-feedback">
-                            {errors.quota}
-                          </div>
-                        ) : (
-                          ""
-                        )}
-                      </div>
-  
-  
-                      <div className="f-1 d-flex flex-column">
-                        <strong style={{ marginBottom: 10 }}>Description</strong>
-                        <div className="jobads-right ">
-                          <textarea
-                            name="description"
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            values={values.description[0] || ""}
-                            type="text"
-                            className="rounded"
-                          />
-                        </div>
-                        {errors.description && touched.description ? (
-                          <div className="input-feedback">
-                            {errors.description}
-                          </div>
-                        ) : (
-                          ""
-                        )}
-                      </div>
-  
-                    </ShadowBox>
-                  </form>
-                )}
-              </Formik>
+      <div>
+      <Card fluid>
+      <Card.Content header='Add Job Advert' />
+      <Card.Content>
+      <Form onSubmit={formik.handleSubmit}>
+        <Form.Field style={{marginBottom: "1rem"}}>
+        <Dropdown
+          clearable
+          item
+          placeholder="Job Position"
+          search
+          selection
+          onChange={(event, data) =>
+            handleChangeSemantic(data.value, "jobPositionId")
+          }
+          onBlur={formik.onBlur}
+          id="jobPositionId"
+          value={formik.values.jobPositionId}
+          options={jobPositionOption}
+          />
+          {formik.errors.jobPositionId && formik.touched.jobPositionId &&(
+            <div className={"ui pointing red basic label"}>
+              {formik.errors.jobPositionId}
             </div>
-          </div>
-        </div>
-      </div>
+          )}
+          </Form.Field>
+          <Form.Field>
+            <Dropdown
+              clearable
+              item
+              placeholder="City"
+              search
+              selection
+              onChange={(event, data) =>
+                handleChangeSemantic(data.value, "cityId")
+              }
+              onBlur={formik.onBlur}
+              id="cityId"
+              value={formik.values.cityId}
+              options={cityOption}
+              />
+              {formik.errors.cityId && formik.touched.cityId && (
+                <div className={"ui pointing red basic label"}>
+                {formik.errors.cityId}
+              </div>
+              )}
+          </Form.Field>
+          <Form.Field>
+          <Dropdown
+                  clearable
+                  item
+                  placeholder="Working Type"
+                  search
+                  selection
+                  onChange={(event, data) =>
+                    handleChangeSemantic(data.value, "workingTypeId")
+                  }
+                  onBlur={formik.onBlur}
+                  id="workingTypeId"
+                  value={formik.values.workingTypeId}
+                  options={workingTypeOption}
+                />
+                {formik.errors.workingTypeId && formik.touched.workingTypeId && (
+                  <div className={"ui pointing red basic label"}>
+                    {formik.errors.workingTypeId}
+                  </div>
+                )}
+          </Form.Field>
+          <Form.Field>
+                <Dropdown
+                  clearable
+                  item
+                  placeholder="Working Hour"
+                  search
+                  selection
+                  onChange={(event, data) =>
+                    handleChangeSemantic(data.value, "workingHourId")
+                  }
+                  onBlur={formik.onBlur}
+                  id="workingHourId"
+                  value={formik.values.workingHourId}
+                  options={workingHourOption}
+                />
+                {formik.errors.workingHourId && formik.touched.workingHourId && (
+                  <div className={"ui pointing red basic label"}>{formik.errors.workingHourId}</div>
+                )}
+              </Form.Field>
+              <Form.Field>
+              <Grid stackable>
+              <Grid.Column width={8}>
+                <Input
+                  style={{ width: "100%" }}
+                  type="number"
+                  placeholder="Minimum Salary"
+                  value={formik.values.salaryMin}
+                  name="salaryMin"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                >
+                </Input>
+                {formik.errors.salaryMin && formik.touched.salaryMin && (
+                  <div className={"ui pointing red basic label"}>
+                    {formik.errors.salaryMin}
+                  </div>
+                )}
+                </Grid.Column>
+                <Grid.Column width={8}>
+                <Input
+                  style={{ width: "100%" }}
+                  type="number"
+                  placeholder="Maaş aralığı MAKSİMUM"
+                  value={formik.values.salaryMax}
+                  name="salaryMax"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                >
+                </Input>
+                {formik.errors.salaryMax && formik.touched.salaryMax && (
+                  <div className={"ui pointing red basic label"}>
+                    {formik.errors.salaryMax}
+                  </div>
+                )}
+                </Grid.Column>
+                </Grid>
+              </Form.Field>
+
+              <Form.Field>
+              <Grid stackable>
+              <Grid.Column width={8}>
+                <Input
+                  style={{ width: "100%" }}
+                  id="openPositions"
+                  name="openPositions"
+                  error={Boolean(formik.errors.openPositions)}
+                  onChange={formik.handleChange}
+                  value={formik.values.openPositions}
+                  onBlur={formik.handleBlur}
+                  type="number"
+                  placeholder="Number(s) of Open Position"
+                />
+                {formik.errors.openPositions && formik.touched.openPositions && (
+                  <div className={"ui pointing red basic label"}>
+                    {formik.errors.openPositions}
+                  </div>
+                )}
+                </Grid.Column>
+                <Grid.Column width={8}>
+                <Input
+                  style={{ width: "100%" }}
+                  type="date"
+                  error={Boolean(formik.errors.deadLine)}
+                  onChange={(event, data) =>
+                    handleChangeSemantic(data.value, "deadLine")
+                  }
+                  value={formik.values.deadLine}
+                  onBlur={formik.handleBlur}
+                  name="deadLine"
+                  placeholder="Son başvuru tarihi"
+                />
+                {formik.errors.deadLine && formik.touched.deadLine && (
+                  <div className={"ui pointing red basic label"}>
+                    {formik.errors.deadLine}
+                  </div>
+                )}
+                </Grid.Column>
+                </Grid>
+              </Form.Field>
+
+              <Form.Field>
+                <TextArea
+                  placeholder="Description"
+                  style={{ minHeight: 100 }}
+                  error={Boolean(formik.errors.description).toString()}
+                  value={formik.values.description}
+                  name="description"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                />
+                {formik.errors.description && formik.touched.description && (
+                  <div className={"ui pointing red basic label"}>
+                    {formik.errors.description}
+                  </div>
+                )}
+              </Form.Field>
+              <Button
+                content="Add"
+                labelPosition="right"
+                icon="add"
+                positive
+                type="submit"
+                style={{ marginLeft: "20px" }}
+              />
+      </Form>
+      </Card.Content>
+      </Card>
+    </div>
+     
     )
 }

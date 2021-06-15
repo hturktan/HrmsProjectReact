@@ -68,10 +68,10 @@ export default function JobAdvertCreate() {
     text: workingHour.workingHours,
     value: workingHour.id,
   }));
-  const workingTypeOption = workingTypes.map((workingTypes, index) => ({
+  const workingTypeOption = workingTypes.map((workingType, index) => ({
     key: index,
-    text: workingTypes.workType,
-    value: workingTypes.id,
+    text: workingType.workType,
+    value: workingType.id,
   }));
   const cityOption = cities.map((city, index) => ({
     key: index,

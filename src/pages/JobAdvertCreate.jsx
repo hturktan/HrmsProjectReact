@@ -198,28 +198,6 @@ export default function JobAdvertCreate() {
                 <Grid.Column width={8}>
                 <Input
                   style={{ width: "100%" }}
-                  type="number"
-                  placeholder="Maximum Salary"
-                  value={formik.values.salaryMax}
-                  name="salaryMax"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                >
-                </Input>
-                {formik.errors.salaryMax && formik.touched.salaryMax && (
-                  <div className={"ui pointing red basic label"}>
-                    {formik.errors.salaryMax}
-                  </div>
-                )}
-                </Grid.Column>
-                </Grid>
-              </Form.Field>
-
-              <Form.Field>
-              <Grid stackable>
-              <Grid.Column width={8}>
-                <Input
-                  style={{ width: "100%" }}
                   id="openPositions"
                   name="openPositions"
                   error={Boolean(formik.errors.openPositions)}
@@ -235,6 +213,29 @@ export default function JobAdvertCreate() {
                   </div>
                 )}
                 </Grid.Column>
+                </Grid>
+              </Form.Field>
+
+              <Form.Field>
+              <Grid stackable>
+              <Grid.Column width={8}>
+                <Input
+                  style={{ width: "100%" }}
+                  type="number"
+                  placeholder="Maximum Salary"
+                  value={formik.values.salaryMax}
+                  name="salaryMax"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                >
+                </Input>
+                {formik.errors.salaryMax && formik.touched.salaryMax && (
+                  <div className={"ui pointing red basic label"}>
+                    {formik.errors.salaryMax}
+                  </div>
+                )}
+                </Grid.Column>
+              
                 <Grid.Column width={8}>
                 <Input
                   style={{ width: "100%" }}

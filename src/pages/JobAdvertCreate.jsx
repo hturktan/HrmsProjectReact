@@ -39,7 +39,7 @@ export default function JobAdvertCreate() {
     },
     validationSchema: JobAdvertCreateSchema,
     onSubmit: (values) => {
-      values.employerId = 39;
+      values.employerId = 40;
       jobAdvertService.add(values).then((result) => console.log(result.data.data));
       alert("New Job Advert will be added after the confirmation by staff");
       history.push("/jobadverts");
@@ -63,14 +63,14 @@ export default function JobAdvertCreate() {
     jobPositionService.getJobPositions().then((result) => setJobPositions(result.data.data));
   }, []);
 
-  const workingHourOption = workingHours.map((workingHours, index) => ({
+  const workingHourOption = workingHours.map((workingHour, index) => ({
     key: index,
-    text: workingHours.name,
-    value: workingHours.id,
+    text: workingHour.workingHours,
+    value: workingHour.id,
   }));
   const workingTypeOption = workingTypes.map((workingTypes, index) => ({
     key: index,
-    text: workingTypes.name,
+    text: workingTypes.workType,
     value: workingTypes.id,
   }));
   const cityOption = cities.map((city, index) => ({
@@ -80,7 +80,7 @@ export default function JobAdvertCreate() {
   }));
   const jobPositionOption = jobPositions.map((jobPosition, index) => ({
     key: index,
-    text: jobPosition.name,
+    text: jobPosition.title,
     value: jobPosition.id,
   }));
 
@@ -246,7 +246,7 @@ export default function JobAdvertCreate() {
                   value={formik.values.deadLine}
                   onBlur={formik.handleBlur}
                   name="deadLine"
-                  placeholder="Son başvuru tarihi"
+                  placeholder="Last Apply Date"
                 />
                 {formik.errors.deadLine && formik.touched.deadLine && (
                   <div className={"ui pointing red basic label"}>

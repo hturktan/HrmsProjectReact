@@ -19,8 +19,7 @@ export default function JobAdvertCreate() {
     workingTypeId: Yup.string().required("This area has to be filled"),
     openPositions: Yup.string().required("This area has to be filled").min(1,"Position number has to be minimum 1"),
     cityId: Yup.string().required("This area has to be filled"),
-    salaryMin: Yup.number().min(0,"This has to be minimum Zero").required("This area has to be filled"),
-    salaryMax: Yup.number().min(0,"This has to be minimum Zero").required("This area has to be filled")
+
   });
 
   const history = useHistory();

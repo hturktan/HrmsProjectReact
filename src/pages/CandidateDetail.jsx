@@ -6,7 +6,7 @@ import CandidateService from "../services/candidateService";
 export default function CandidateDetail() {
   let { id } = useParams();
 
-  const [candidate, setCandidate] = useState([]);
+  const [candidate, setCandidate] = useState({});
 
   useEffect(() => {
     let candidateService = new CandidateService();

@@ -13,7 +13,7 @@ export default function JobAdvertDetail() {
     jobAdvertService
       .getById(id)
       .then((result) => setJobAdvert(result.data.data));
-  }, [id]);
+  }, []);
   return (
     <div>
       <Table celled>
@@ -73,7 +73,7 @@ export default function JobAdvertDetail() {
           <Table.Row>
             <Table.Cell>
               <Header as="h4">
-                <Header.Content>Number/s of Open Position</Header.Content>
+                <Header.Content>Number of Open Position</Header.Content>
               </Header>
             </Table.Cell>
             <Table.Cell>{jobAdvert.openPositionNumber}</Table.Cell>

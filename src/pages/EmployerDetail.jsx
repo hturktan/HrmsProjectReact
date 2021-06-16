@@ -7,7 +7,7 @@ import EmployerService from "../services/employerService";
 export default function EmployerDetail() {
   let { id } = useParams();
 
-  const [employer, setEmployer] = useState([]);
+  const [employer, setEmployer] = useState({});
  ;
 
   useEffect(() => {

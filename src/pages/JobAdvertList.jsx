@@ -24,7 +24,7 @@ export default function JobAdvert() {
             <Table.HeaderCell>Job Title</Table.HeaderCell>
             <Table.HeaderCell>Company Name</Table.HeaderCell>
             <Table.HeaderCell>Deadline Date</Table.HeaderCell>
-            <Table.HeaderCell>Number of Open Positions</Table.HeaderCell>
+            <Table.HeaderCell>Number(s) of Open Positions</Table.HeaderCell>
             <Table.HeaderCell>Detail</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
